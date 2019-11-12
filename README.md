@@ -46,7 +46,7 @@ Intercepting backchannel traffic, plugin behavior and communication can be analy
 
 4. `convert_burp_cert.sh`
 
-    ```Bash
+```Bash
 #!/bin/sh
 
 # CONVERT BURP CERTIFICATE TO PEM
@@ -57,12 +57,12 @@ PROXY_HOST=localhost:8082
 curl --proxy $PROXY_HOST http://burp/cert --output burp.der
 openssl x509 -inform der -in burp.der -out burp.pem
 cat burp.pem 
-    ```
+```
 
 5. `move_ca-bundle.php`
 
-    ```PHP
+```PHP
 <?php 
 passthru("mv /tmp/ca-bundle.crt /var/www/html/wp-includes/certificates/ca-bundle.crt");
 phpinfo();
-    ```
+```
