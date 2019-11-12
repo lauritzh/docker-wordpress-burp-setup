@@ -13,7 +13,7 @@ Intercepting backchannel traffic, plugin behavior and communication can be analy
 2. Run `./convert_burp_cert.sh` **Note: Proxy must be up and running**
 3. Append your `burp.pem` to `ca-bundle.crt`
 4. Run `docker-compose up`
-5. Visit http://localhost:8081/wp-content/move_ca-bundle.php **OR** get interactive shell to Docker and copy `/tmp/ca-bundle.crt` to `/var/www/html/wp-includes/certificates/ca-bundle.crt` by hand.
+5. Visit http://localhost:8081/wp-content/move_ca-bundle.php **OR** get interactive shell to Docker and copy `/tmp/ca-bundle.crt` to `/var/www/html/wp-includes/certificates/ca-bundle.crt` by hand
 6. Done! :) You should be able to observe HTTP and HTTPS traffic when browsing through Wordpress backend located at http://localhost:8081/wp-admin/, e.g. check for site health: http://localhost:8081/wp-admin/site-health.php
 
 ## Resulting Setup
@@ -23,9 +23,9 @@ Intercepting backchannel traffic, plugin behavior and communication can be analy
   __________________  :8082                          
  |                  | <=======================================================>
  | Intercept. Proxy |                                               ||       ||
- |                  |                      _________________        ||       ||       ____________
+ |                  |                     __________________        ||       ||       ____________
  |                  |                    |                  |       ||       ||      |            |
- |  Docker Host     |              :8081 |    WordPress     | <=======   ⚡  =====>   |    API     |
+ |   Docker Host    |              :8081 |    WordPress     | <=======   ⚡   ====>   |    API     |
  |                  | <================> | Docker Container |                        |            |
  |__________________|                    |__________________|                        |____________|
 
@@ -63,6 +63,6 @@ cat burp.pem
 
 ```PHP
 <?php 
-passthru("mv /tmp/ca-bundle.crt /var/www/html/wp-includes/certificates/ca-bundle.crt");
-phpinfo();
+	passthru("mv /tmp/ca-bundle.crt /var/www/html/wp-includes/certificates/ca-bundle.crt");
+	phpinfo();
 ```
