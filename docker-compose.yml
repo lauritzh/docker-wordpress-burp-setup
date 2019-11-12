@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+
+  wordpress:
+    # We use our extended wordpress image with custom wp-config.php instead
+    build: .
+
+    ports:
+      - 8081:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: exampleuser
+      WORDPRESS_DB_PASSWORD: examplepass
+      WORDPRESS_DB_NAME: exampledb
+
+      # Burp Setup Instructions: Configure Proxy to listen on port 8082 on loopback interface
+      # 
+      # macOS can not access (linux) bridge interface... thus we use host.docker.internal 
+      # reference: https://docs.docker.com/docker-for-mac/networking/
+      http_proxy: "host.docker.internal:8082"
+      https_proxy: "host.docker.internal:8082" 
+    
+    volumes:
+      - ./move_ca-bundle.php:/var/www/html/wp-content/move_ca-bundle.php
+
+      # Add downloaded plugins using the following line
+      #- ./cust_plugin/:/var/www/html/wp-content/plugins/cust_plugin/
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: exampledb
+      MYSQL_USER: exampleuser
+      MYSQL_PASSWORD: examplepass
+      MYSQL_RANDOM_ROOT_PASSWORD: '0'
